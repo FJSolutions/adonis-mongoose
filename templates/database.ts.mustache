@@ -1,0 +1,71 @@
+/**
+ * The Adonis-Mongoose database configuration file
+ */
+import Env from '@ioc:Adonis/Core/Env'
+import { MongooseConfig } from '@fjsolutions/adonis-mongoose'
+
+module.exports = {
+  mongoose: {
+    client: 'mongoose',
+    connections: [
+      {
+        /*
+        |--------------------------------------------------------------------------
+        | Default Connection
+        |--------------------------------------------------------------------------
+        |
+        | Connection defines the default connection settings to be used while
+        | interacting with Mongodb databases.
+        |
+        */
+        name: 'Default',
+        connectionString: Env.get('DB_CONNECTION_STRING', ''),
+        connection: {
+          protocol: Env.get('DB_PROTOCOL', 'mongodb'),
+          host: {
+            name: Env.get('DB_HOST', 'localhost'),
+            port: Env.get('DB_PORT', 27017),
+
+          },
+          username: Env.get('DB_USER', ''),
+          password: Env.get('DB_PASSWORD', ''),
+          database: Env.get('DB_DATABASE', 'adonis'),
+          // replicaSet: [
+          //   {
+          //     host: Env.get('DB_REPLICA_SET_HOST_0', 'db0.example.com'),
+          //     port: Env.get('DB_REPLICA_SET_PORT_0', 27017),
+          //   },
+          //   {
+          //     host: Env.get('DB_REPLICA_SET_HOST_1', 'db1.example.com'),
+          //     port: Env.get('DB_REPLICA_SET_PORT_1', 27018),
+          //   },
+          //   {
+          //     host: Env.get('DB_REPLICA_SET_HOST_2', 'db2.example.com'),
+          //     port: Env.get('DB_REPLICA_SET_PORT_2', 27019),
+          //   },
+          // ],
+          options: {
+            // replicaSet: Env.get('DB_REPLICA_SET_NAME', '')
+            authSource: Env.get('DB_AUTH_SOURCE', 'admin'),
+            appName:'adonis-mongoose',
+            encryption: {
+              tls: Env.get('DB_TLS', true),
+            },
+            // connectTimeoutMS: Env.get('DB_CONNECT_TIMEOUT_MS', 15000),
+            // socketTimeoutMS: Env.get('DB_SOCKET_TIMEOUT_MS', 180000),
+            // w: Env.get('DB_W, 0),
+            // wtimeoutMS: Env.get('DB_W_TIMEOUT_MS, 0),
+            // journal: Env.get('DB_JOURNAL, 0),
+            // readPreference: Env.get('DB_READ_PREFERENCE', 'secondary'),
+            // authSource: Env.get('DB_AUTH_SOURCE', 'admin'),
+            // authMechanism: Env.get('DB_AUTH_MECHANISM', ''),
+            // maxPoolSize: Env.get('POOL_MAX_SIZE', ''),
+            // minPoolSize: Env.get('POOL_MIN_SIZE', ''),
+            // maxIdleTimeMS: Env.get('POOL_MAX_IDLE_TIME_MS', ''),
+            // other options
+          },
+        },
+      },
+    ],
+  },
+} as MongooseConfig

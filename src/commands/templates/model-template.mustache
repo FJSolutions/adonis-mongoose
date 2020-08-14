@@ -1,0 +1,52 @@
+// import { DateTime } from 'luxon'
+import { Document, Schema } from '@fjsolutions/adonis-mongoose/'
+import Mongoose from '@ioc:Provider/Mongoose'
+
+export interface {{ name }}Contract {
+  // TODO: Add the class's Properties here
+  {{ #dateStamps }}
+  createdAt?: Date,
+  updatedAt?: Date
+  {{ /dateStamps }}
+}
+
+const {{ name }}Schema = new Schema({
+  // TODO: Add the class's Schema definition here
+  {{ #dateStamps }}
+  createdAt: {
+    type: Date,
+    required: true,
+  },
+  updatedAt: {
+    type: Date,
+    required: true,
+  },
+  {{ /dateStamps }}
+})
+
+// Virtual (not persisted) properties on model instances
+// {{ name }}Schema.virtual('<propertyName>').get(() => { })
+
+// Create the union type of the interface's properties and Mongoose's document query class
+type {{ name }}Document = {{ name }}Contract & Document
+
+// Model instance's pre-save hook.
+{{ name }}Schema.pre<{{ name }}Document>('save', async function (next) {
+  // Add the date flags
+  {{ #dateStamps }}
+  if (this.isNew) {
+    this.createdAt = this.updatedAt = new Date()
+  }
+  else {
+    this.updatedAt = new Date()
+  }
+
+  {{ /dateStamps }}
+  await next()
+})
+
+// Create and export the {{ name }} model
+export const {{ name }} = Mongoose.model<{{ name }}Document>('{{ name }}', {{ name }}Schema)
+
+// Make the model the default export
+export default {{ name }}

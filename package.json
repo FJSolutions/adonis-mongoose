@@ -1,0 +1,56 @@
+{
+  "name": "@fjsolutions/adonis-mongoose",
+  "version": "1.0.0",
+  "description": "A Mongoose provider for AdonisJS 5",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm run clean && tsc && cp -r ./templates ./build/ && cp -r ./src/commands/templates ./build/commands",
+    "build:watch": "npm run build -- --watch",
+    "clean": "cd build && rm -fr * && cd .."
+  },
+  "author": "Francis Judge",
+  "license": "MIT",
+  "dependencies": {
+    "@adonisjs/ace": "^6.9.4",
+    "@adonisjs/core": "^5.0.0-preview-rc-1.11",
+    "@adonisjs/fold": "^6.4.0",
+    "@adonisjs/validator": "^7.4.1",
+    "@fjsolutions/mongodb-uri": "^1.0.2",
+    "mongoose": "^5.9.28",
+    "voca": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.7.36",
+    "@types/node": "^14.0.27",
+    "@types/voca": "^1.4.0",
+    "node-ts": "^5.0.8",
+    "typescript": "^3.9.7"
+  },
+  "types": "./build/index.d.ts",
+  "adonisjs": {
+    "templates": {
+      "config": [
+        "database.ts.mustache"
+      ],
+      "contracts": [
+        "mongoose.ts.mustache",
+        "validator.ts.mustache"
+      ]
+    },
+    "env": {
+      "DB_HOST": "localhost",
+      "DB_PORT": 27017,
+      "DB_USER": "",
+      "DB_PASSWORD": "",
+      "DB_DATABASE": "adonis",
+      "DB_AUTH_SOURCE": "admin",
+      "DB_TLS": false
+    },
+    "providers": [
+      "@fjsolutions/adonis-mongoose/build/providers/MongooseProvider"
+    ],
+    "commands": [
+      "@fjsolutions/adonis-mongoose/build/commands"
+    ]
+  }
+}

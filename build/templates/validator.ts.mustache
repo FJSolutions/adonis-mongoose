@@ -1,0 +1,32 @@
+/*
+ * @fjsolutions/adonis-mongoose
+ *
+*/
+
+declare module '@ioc:Adonis/Core/Validator' {
+  import { Rule } from '@ioc:Adonis/Core/Validator'
+
+  export type MongooseDocCheckOptions = {
+    /**
+     * The Mongoose model name to use for the check
+     */
+    modelName: string,
+    /**
+     * The name of the property on the Mongoose model to check
+     */
+    propName: string,
+    /**
+     * An object defining additional constraints to check
+     */
+    where?: { [key: string]: any },
+    /**
+     * An object defining additional negative constraints to check
+     */
+    whereNot?: { [key: string]: any },
+  }
+
+  export interface Rules {
+    exists (options: MongooseDocCheckOptions): Rule
+    unique (options: MongooseDocCheckOptions): Rule
+  }
+}

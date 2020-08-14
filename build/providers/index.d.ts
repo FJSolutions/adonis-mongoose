@@ -1,0 +1,1 @@
+export { AdonisMongoose } from './AdonisMongoose';
