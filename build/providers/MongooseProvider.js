@@ -78,15 +78,26 @@ class MongooseProvider {
     }
     async connect(config) {
         const Logger = this.ioc.use('Adonis/Core/Logger');
-        let connectionUri = config.connectionString;
-        if (V.isBlank(connectionUri)) {
+        let connectionUri = '';
+        if (typeof config.connection === 'string') {
+            connectionUri = config.connection;
+        }
+        if (!connectionUri || V.isBlank(connectionUri)) {
             connectionUri = mongodb_uri_1.UriBuilder.setConfig(config.connection).buildUri();
         }
         Logger.debug('Connecting using: %s ...', connectionUri);
         if (connectionUri) {
-            const conn = await mongoose_1.default.createConnection(connectionUri, { useNewUrlParser: true, useUnifiedTopology: true });
-            Logger.debug('Mongoose connected');
-            return conn;
+            try {
+                const conn = await mongoose_1.default.createConnection(connectionUri, { useNewUrlParser: true, useUnifiedTopology: true });
+                Logger.debug('Mongoose connected');
+                return conn;
+            }
+            catch (e) {
+                Logger.error('%s (%s)', e.message, connectionUri);
+            }
+        }
+        else {
+            Logger.error('No connection URI was created from the configuration (%s)', config.name);
         }
     }
 }

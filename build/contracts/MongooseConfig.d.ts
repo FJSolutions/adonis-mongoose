@@ -7,6 +7,5 @@ export interface MongooseConfig {
 }
 export interface MongoDbConfig {
     name: string;
-    connectionString?: string;
-    connection: UriConfigContract;
+    connection: string | UriConfigContract;
 }

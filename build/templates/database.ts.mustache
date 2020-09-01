@@ -47,9 +47,9 @@ module.exports = {
           options: {
             // replicaSet: Env.get('DB_REPLICA_SET_NAME', '')
             authSource: Env.get('DB_AUTH_SOURCE', 'admin'),
-            appName:'adonis-mongoose',
+            // appName:'adonis-mongoose',
             encryption: {
-              tls: Env.get('DB_TLS', true),
+              ssl: Env.get('DB_SSL', false),
             },
             // connectTimeoutMS: Env.get('DB_CONNECT_TIMEOUT_MS', 15000),
             // socketTimeoutMS: Env.get('DB_SOCKET_TIMEOUT_MS', 180000),

@@ -6,11 +6,11 @@ export interface MongooseConfig {
    */
   mongoose: {
     /**
-     * AS constant indicating that this is a Mongoose connection configuration
+     * A constant indicating that this is a Mongoose connection configuration
      */
     client: 'mongoose',
     /**
-     * The array of Mongoose connections
+     * An array of named Mongoose connections
      */
     connections: MongoDbConfig[]
   },
@@ -22,12 +22,7 @@ export interface MongoDbConfig {
    */
   name: string,
   /**
-   * The full MongoDB connection URI string
+   * Either a full MongoDB connection URI string, or an object with the details of the connection
    */
-  connectionString?: string,
-
-  /**
-   * An object with the details of the connection
-   */
-  connection: UriConfigContract
+  connection: string | UriConfigContract
 }

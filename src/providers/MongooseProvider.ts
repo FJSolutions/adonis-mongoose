@@ -3,7 +3,7 @@ import * as V from 'voca'
 import { IocContract } from '@adonisjs/fold'
 import { Logger as ILogger } from '@adonisjs/logger/build/src/Logger'
 import { Config as IConfig } from '@adonisjs/config/build/src/Config'
-import { UriBuilder } from '@fjsolutions/mongodb-uri'
+import { UriBuilder, UriConfigContract } from '@fjsolutions/mongodb-uri'
 import { extendValidator } from '../validation'
 import { MongoDbConfig } from '../contracts/MongooseConfig'
 import { AdonisMongoose } from '../providers/AdonisMongoose'
@@ -64,7 +64,7 @@ export default class MongooseProvider {
       if(!conn) {
         throw new Error('Unable to establish the Mongoose connection')
       }
-
+      
       adonisMongoose.add(configurations[0].name || 'Default', conn, true)
     }
     else {
@@ -74,7 +74,7 @@ export default class MongooseProvider {
           if(V.isBlank(config.name)) {
             throw new Error('The Mongoose connection configuration must have a name!')
           }
-  
+          
           const conn = await this.connect(config)
           if(!conn) {
             throw new Error('Unable to establish the Mongoose connection')
@@ -104,20 +104,35 @@ export default class MongooseProvider {
     const Logger = this.ioc.use<ILogger>('Adonis/Core/Logger')
 
     // Check the Config object: if there's a connection URI and use that, otherwise use the configuration
-    let connectionUri = config.connectionString
-    if(V.isBlank(connectionUri)) {
-      connectionUri = UriBuilder.setConfig(config.connection).buildUri()
+    let connectionUri = ''
+    if(typeof config.connection === 'string'){
+      connectionUri = config.connection
+    }
+    
+    // If there's no connection string, then there's a connection object
+    if(!connectionUri || V.isBlank(connectionUri)) {
+      connectionUri = UriBuilder.setConfig(config.connection as UriConfigContract).buildUri()
     }
 
     Logger.debug('Connecting using: %s ...', connectionUri)
 
     // Make the database connection
     if(connectionUri) {
-      const conn = await Mongoose.createConnection(connectionUri, { useNewUrlParser: true, useUnifiedTopology: true })
+      try{
 
-      Logger.debug('Mongoose connected')
+        const conn = await Mongoose.createConnection(connectionUri, { useNewUrlParser: true, useUnifiedTopology: true })
+        
+        Logger.debug('Mongoose connected')
+        
+        return conn
+      }
+      catch(e) {
+        Logger.error('%s (%s)', e.message, connectionUri)
 
-      return conn
+      }
+    }
+    else{
+      Logger.error('No connection URI was created from the configuration (%s)', config.name)
     }
   }
 }
