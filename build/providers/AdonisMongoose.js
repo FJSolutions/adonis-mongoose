@@ -14,7 +14,7 @@ class AdonisMongoose {
     }
     use(name, changeConnection = false) {
         if (!this.connections.has(name)) {
-            throw new Error('Unknown mongoose connection name!');
+            throw new Error("Unknown mongoose connection name!");
         }
         if (changeConnection) {
             this.defaultMongoose = this.connections.get(name);
