@@ -1,10 +1,10 @@
 {
   "name": "@fjsolutions/adonis-mongoose",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A Mongoose provider for AdonisJS 5",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npm run clean && tsc && cp -r ./templates ./build/ && cp -r ./src/commands/templates ./build/commands",
+    "build": "npm run clean && tsc && cp -r ./src/templates ./build/ && cp -r ./src/commands/templates ./build/commands",
     "build:watch": "npm run build -- --watch",
     "clean": "cd build && rm -fr * && cd .."
   },
@@ -12,19 +12,19 @@
   "license": "MIT",
   "dependencies": {
     "@adonisjs/ace": "^6.9.4",
-    "@adonisjs/core": "^5.0.0-preview-rc-1.12",
-    "@adonisjs/fold": "^6.4.0",
+    "@adonisjs/core": "^5.0.1",
+    "@adonisjs/fold": "^6.4.1",
     "@adonisjs/validator": "^7.4.2",
-    "@fjsolutions/mongodb-uri": "^1.1.1",
-    "mongoose": "^5.10.2",
+    "@fjsolutions/mongodb-uri": "^1.1.5",
+    "mongoose": "^5.11.15",
     "voca": "^1.4.0"
   },
   "devDependencies": {
-    "@types/mongoose": "^5.7.36",
-    "@types/node": "^14.6.2",
+    "@types/mongoose": "^5.10.3",
+    "@types/node": "^14.14.25",
     "@types/voca": "^1.4.0",
-    "node-ts": "^5.0.8",
-    "typescript": "^3.9.7"
+    "node-ts": "^5.1.1",
+    "typescript": "^3.9.9"
   },
   "repository": {
     "type": "git",
